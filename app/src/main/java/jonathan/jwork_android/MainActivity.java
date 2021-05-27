@@ -3,10 +3,23 @@ package jonathan.jwork_android;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
@@ -18,13 +31,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
     private ArrayList<Recruiter> listRecruiter = new ArrayList<>();
     private ArrayList<Job> jobIdList = new ArrayList<>();
     private HashMap<Recruiter, ArrayList<Job>> childMapping = new HashMap<>();
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshList();
-            }
-        });
+        refreshList();
     }
 
-    protected void refreshList() {
+    protected void refreshList(){
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONArray jsonResponse = new JSONArray(response);
                     if (jsonResponse != null) {
-                        for (int i = 0; i < jsonResponse.length(); i++) {
+                        for (int i = 0; i < jsonResponse.length(); i++){
                             JSONObject job = jsonResponse.getJSONObject(i);
                             JSONObject recruiter = job.getJSONObject("recruiter");
                             JSONObject location = recruiter.getJSONObject("location");
@@ -57,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                             String province = location.getString("province");
                             String description = location.getString("description");
 
-                            Location location1 = new Location(city, province, description);
+                            Location location1 = new Location(province, city, description);
 
                             int recruiterId = recruiter.getInt("id");
                             String recruiterName = recruiter.getString("name");
@@ -66,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
                             Recruiter newRecruiter = new Recruiter(recruiterId, recruiterName, recruiterEmail, recruiterPhoneNumber, location1);
                             if (listRecruiter.size() > 0) {
-                                boolean status = true;
+                                boolean success = true;
                                 for (Recruiter rec : listRecruiter)
                                     if (rec.getId() == newRecruiter.getId())
-                                        status = false;
-                                if (status) {
+                                        success = false;
+                                if (success) {
                                     listRecruiter.add(newRecruiter);
                                 }
                             } else {
@@ -85,18 +93,18 @@ public class MainActivity extends AppCompatActivity {
                             Job newJob = new Job(jobId, jobName, newRecruiter, jobFee, jobCategory);
                             jobIdList.add(newJob);
 
-                            for (Recruiter rec : listRecruiter) {
+                            for (Recruiter sel : listRecruiter) {
                                 ArrayList<Job> temp = new ArrayList<>();
-                                for (Job job2 : jobIdList) {
-                                    if (job2.getRecruiter().getName().equals(rec.getName()) || job2.getRecruiter().getEmail().equals(rec.getEmail()) || job2.getRecruiter().getPhoneNumber().equals(rec.getPhoneNumber())) {
-                                        temp.add(job2);
+                                for (Job jobs : jobIdList) {
+                                    if (jobs.getRecruiter().getName().equals(sel.getName()) || jobs.getRecruiter().getEmail().equals(sel.getEmail()) || jobs.getRecruiter().getPhoneNumber().equals(sel.getPhoneNumber())) {
+                                        temp.add(jobs);
                                     }
                                 }
-                                childMapping.put(rec, temp);
-                                listAdapter = new MainListAdapter(MainActivity.this, listRecruiter, childMapping);
-                                expListView.setAdapter(listAdapter);
+                                childMapping.put(sel, temp);
                             }
                         }
+                        listAdapter = new MainListAdapter(MainActivity.this, listRecruiter, childMapping);
+                        expListView.setAdapter(listAdapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

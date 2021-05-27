@@ -1,5 +1,6 @@
 package jonathan.jwork_android;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainListAdapter extends BaseExpandableListAdapter {
+
     private Context _context;
     private ArrayList<Recruiter> _listDataHeader;
     private HashMap<Recruiter, ArrayList<Job>> _listDataChild;
@@ -30,8 +32,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
@@ -39,11 +40,9 @@ public class MainListAdapter extends BaseExpandableListAdapter {
         return this._listDataHeader.get(groupPosition);
     }
 
-
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+    public Object getChild(int groupPosition, int childPosition) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -61,15 +60,14 @@ public class MainListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
-
+    @SuppressLint("InflateParams")
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
         final Recruiter headerTitle = (Recruiter) getGroup(groupPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.layout_recruiter, null);
+            LayoutInflater layoutInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.layout_recruiter, null);
         }
 
         TextView ListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
@@ -80,8 +78,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final Job childText = (Job) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
@@ -94,10 +91,8 @@ public class MainListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
 }
