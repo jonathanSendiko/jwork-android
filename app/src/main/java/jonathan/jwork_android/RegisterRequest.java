@@ -7,6 +7,14 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class untuk membuat struktur request untuk membuat jobseeker baru atau register
+ * menggunakkan Volley Request
+ * @author Jonathan
+ * @version 1.0
+ * @since 10 Juni
+ *
+ */
 public class RegisterRequest extends StringRequest {
     private static final String URL = "http://10.0.2.2:8080/jobseeker/register";
     private Map<String, String> params;

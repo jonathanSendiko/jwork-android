@@ -1,5 +1,13 @@
 package jonathan.jwork_android;
 
+
+/**
+ * Class untuk objek Location
+ * @author Jonathan
+ * @version 1.0
+ * @since 10 Juni
+ *
+ */
 public class Location {
     private String province;
     private String description;

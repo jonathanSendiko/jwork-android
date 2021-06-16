@@ -12,6 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Adapter untuk expandable list yanga ada pada main activity
+ * @author Jonathan
+ * @version 1.0
+ * @since 10 Juni 2021
+ */
 public class MainListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;

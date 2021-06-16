@@ -17,19 +17,31 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Activity untuk melakukan login
+ * @author Jonathan
+ * @version 1.0
+ * @since 10 Juni 2021
+ */
 public class LoginActivity extends AppCompatActivity {
 
-
+    /**
+     * Method inisialisasi pembuatan layout activity_login.xml
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Inisialisasi view layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Inisialisasi setiap component pada layout ke private variable instance yang ada
         EditText etEmail = findViewById(R.id.email_input);
         EditText etPassword = findViewById(R.id.password_input);
         Button btnLogin = findViewById(R.id.login_button);
         TextView tvRegister = findViewById(R.id.register_action);
 
+        //Method saat button Login diklik
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (jsonObject != null) {
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                loginIntent.putExtra("jobseekerID", jsonObject.getInt("id"));
+                                loginIntent.putExtra("jobseekerName", jsonObject.getString("name"));
+
                                 startActivity(loginIntent);
                                 finish();
                             }
@@ -54,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
 
+
                 LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
+                System.out.println(loginRequest);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
             }

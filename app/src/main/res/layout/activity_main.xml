@@ -5,11 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <ExpandableListView
         android:id="@+id/lvExp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_width="402dp"
+        android:layout_height="499dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+
+    </ExpandableListView>
+
+    <Button
+        android:id="@+id/btnAppliedJob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="74dp"
+        android:text="Applied Job"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvExp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

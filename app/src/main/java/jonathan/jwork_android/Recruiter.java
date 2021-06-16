@@ -1,5 +1,13 @@
 package jonathan.jwork_android;
 
+
+/**
+ * Class untuk objek Recruiter
+ * @author Jonathan
+ * @version 1.0
+ * @since 10 Juni
+ *
+ */
 public class Recruiter {
     private int id;
     private String name;
